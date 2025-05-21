@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Take Attendance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .glass-card, .glass-nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .glow-button {
+      background-color: white;
+      color: #4c1d95;
+      box-shadow: 0 0 10px #c084fc, 0 0 20px #c084fc;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .glow-button:hover {
+      box-shadow: 0 0 20px #a855f7, 0 0 40px #9333ea;
+      transform: scale(1.05);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-white px-4 sm:px-6 md:px-8">
+
+  <!-- 🔥 Responsive NAVBAR -->
+  <nav class="glass-nav fixed top-0 left-0 right-0 z-50 p-4 md:px-8 shadow-lg">
+    <div class="flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center gap-2 font-bold text-xl sm:text-2xl text-white">
+        <i data-lucide="fingerprint" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        <span>SnapMark</span>
+      </div>
+
+      <!-- Hamburger Icon -->
+      <button id="menu-toggle" class="lg:hidden text-white focus:outline-none">
+        <i data-lucide="menu" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+      </button>
+
+      <!-- Desktop Nav Links -->
+      <ul class="hidden lg:flex space-x-4 sm:space-x-6 text-white/90 font-medium">
+        <li><a href="/" class="hover:text-purple-200 transition">Home</a></li>
+        <li><a href="/dashboard" class="hover:text-purple-200 transition">Dashboard</a></li>
+        <li><a href="/profile" class="hover:text-purple-200 transition">Profile</a></li>
+        <li><a href="/logout" class="hover:text-purple-200 transition">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Mobile Nav Links -->
+    <ul id="mobile-menu" class="lg:hidden hidden mt-4 space-y-4 text-white/90 font-medium text-center">
+      <li><a href="/" class="block hover:text-purple-200 transition">Home</a></li>
+      <li><a href="/dashboard" class="block hover:text-purple-200 transition">Dashboard</a></li>
+      <li><a href="/profile" class="block hover:text-purple-200 transition">Profile</a></li>
+      <li><a href="/logout" class="block hover:text-purple-200 transition">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🧠 HERO SECTION -->
+  <header class="text-center pt-36 pb-12 fade-in">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">📷 Smart Attendance System</h1>
+    <p class="text-base sm:text-lg md:text-xl text-white/80 px-2">Mark attendance with ease using AI — choose from file upload, live face detection, or view attendance history.</p>
+  </header>
+
+  <!-- 🧊 MAIN CARD SECTION -->
+  <main class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 md:gap-10 max-w-7xl mx-auto fade-in">
+
+    <!-- Upload File Card -->
+    <div class="glass-card rounded-2xl shadow-xl p-6 sm:p-8" data-tilt>
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="upload" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+        <h2 class="text-xl sm:text-2xl font-bold">Upload File</h2>
+      </div>
+      <p class="mb-5 text-white/80 text-sm sm:text-base">Upload a CSV or image file to mark attendance automatically.</p>
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" class="mb-4 w-full text-xs sm:text-sm text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-purple-100 file:text-purple-800 hover:file:bg-purple-200 transition-all"/>
+        <button type="submit" class="glow-button w-full sm:w-auto px-4 py-2 rounded-lg font-semibold text-base sm:text-lg">Submit</button>
+      </form>
+    </div>
+
+    <!-- Live Camera Card -->
+    <div class="glass-card rounded-2xl shadow-xl p-6 sm:p-8" data-tilt>
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="camera" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+        <h2 class="text-xl sm:text-2xl font-bold">Live Camera Access</h2>
+      </div>
+      <p class="mb-5 text-white/80 text-sm sm:text-base">Use your webcam for real-time facial recognition attendance.</p>
+      <a href="/camera" class="glow-button block text-center px-4 py-2 rounded-lg font-semibold text-base sm:text-lg">Start Camera</a>
+    </div>
+
+    <!-- Logs Card -->
+    <div class="glass-card rounded-2xl shadow-xl p-6 sm:p-8" data-tilt>
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="clock" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+        <h2 class="text-xl sm:text-2xl font-bold">Attendance Logs</h2>
+      </div>
+      <p class="mb-5 text-white/80 text-sm sm:text-base">View recent attendance records with time, date, and mode.</p>
+      <a href="/logs" class="glow-button block text-center px-4 py-2 rounded-lg font-semibold text-base sm:text-lg">View Logs</a>
+    </div>
+
+  </main>
+
+  <!-- 📘 Notes Section -->
+  <section class="mt-14 max-w-3xl text-center mx-auto px-2 fade-in">
+    <h3 class="text-xl sm:text-2xl font-semibold mb-2">ℹ️ How it Works</h3>
+    <p class="text-sm sm:text-base md:text-lg text-white/80">
+      Choose an option to start marking attendance. Our system uses advanced face recognition algorithms and file parsing methods to ensure accurate results. The logs section helps track past records.
+    </p>
+  </section>
+
+  <!-- Scripts -->
+  <script>
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+      max: 15,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.2,
+    });
+
+    lucide.createIcons();
+
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>

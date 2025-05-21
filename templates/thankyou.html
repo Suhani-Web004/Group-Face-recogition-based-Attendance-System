@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thank You!</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #00aaff, #004e92);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .thank-you-container {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
+      animation: zoomIn 0.8s ease;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #00eaff;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      border: none;
+      background: #00eaff;
+      color: white;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #008ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="thank-you-container" data-aos="fade-up">
+    <lottie-player src="https://assets10.lottiefiles.com/private_files/lf30_tfb3estd.json"
+                   background="transparent" speed="1" style="height: 150px;" loop autoplay></lottie-player>
+    <h1>Thank You!</h1>
+    <p>Your message has been received. We'll get back to you soon!</p>
+    <a href="/" class="btn">Go Back to Home</a>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+</body>
+</html>

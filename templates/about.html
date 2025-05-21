@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SnapMark</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #3a4d52, #2f80ed), url('assets/background.svg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #00aaff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00aaff;
+            text-shadow: 2px 2px 10px rgba(0, 170, 255, 0.7);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin-left: auto;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00aaff;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+        }
+
+        /* About Section */
+        .about {
+            text-align: center;
+            padding: 80px 50px;
+        }
+
+        .about h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(0, 170, 255, 0.7);
+        }
+
+        .about p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: auto;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        .team {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px;
+            width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .team-member img {
+            width: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 3px solid #00aaff;
+        }
+
+        .team-member h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .about h1 {
+                font-size: 2.5rem;
+            }
+
+            .about p {
+                font-size: 1.2rem;
+            }
+
+            .team-member {
+                width: 90%;
+            }
+        }
+        .menu-icon {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    input, textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 18px;
+    }
+}
+.btn-glow {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background: transparent;
+            border: 2px solid #00aaff;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            animation: glowing 2s infinite;
+            transform: translate(-50%, -50%);
+        }
+        .btn:hover {
+            background: #0099e6;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+        }.btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #369dd0;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 170, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+
+    </style>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuIcon = document.querySelector(".menu-icon");
+        const navLinks = document.querySelector(".nav-links");
+
+        menuIcon.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+    });
+    </script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">SnapMark</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/features">Features</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><button class="btn btn-glow">GET STARTED</button></li>
+            </ul>
+        </nav>        
+    </header>
+
+    <section class="about">
+        <h1>About SnapMark</h1>
+        <p>SnapMark is an AI-powered attendance system that leverages face recognition and real-time tracking to automate attendance marking seamlessly.</p>
+
+        <div class="team">
+            <div class="team-member">
+                <!-- <img src="https://via.placeholder.com/100" alt="Founder"> -->
+                <h3>Padhi Suhani Srinibas</h3>
+                <!-- <p>Founder & AI Developer</p> -->
+            </div>
+            <div class="team-member">
+                <!-- <img src="https://via.placeholder.com/100" alt="Tech Lead"> -->
+                <h3>Dharmendra Singh </h3>
+                <!-- <p>Tech Lead</p> -->
+            </div>
+            <div class="team-member">
+                <!-- <img src="https://via.placeholder.com/100" alt="Designer"> -->
+                <h3>Sachin Kurmi</h3>
+                <!-- <p>UI/UX Designer</p> -->
+            </div>
+            <div class="team-member">
+                <!-- <img src="https://via.placeholder.com/100" alt="Designer"> -->
+                <h3>Pankaj Kushwah</h3>
+                <!-- <p>UI/UX Designer</p> -->
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SnapMark Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      overflow-x: hidden;
+      animation: fadeInBody 1.5s ease-in-out;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(134, 120, 247, 0.5);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    nav .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #d8caff;
+      text-shadow: 0 0 10px #b392f0;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #c084fc;
+      text-shadow: 0 0 8px #c084fc;
+    }
+
+    header {
+      text-align: center;
+      padding-top: 90px;
+    }
+
+    header h1 {
+      font-size: 42px;
+      color: #f3e8ff;
+      text-shadow: 0 0 15px #c084fc;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #e9d5ff;
+    }
+
+    .dashboard-container {
+      padding: 40px 30px 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .chart-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 20px;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      border: 2px solid transparent;
+      background-image: linear-gradient(#ffffff10, #ffffff10), linear-gradient(to right, #c084fc, #a855f7);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+
+    .chart-box:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 0 40px #c084fc, 0 0 60px #a855f7;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #d8caff;
+      text-shadow: 0 0 10px #b392f0;
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      margin-top: 40px;
+      color: #e0d7ff;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: inset 0 1px 5px rgba(192, 155, 255, 0.3);
+    }
+
+    .fade-in {
+      animation: fadeInUp 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      from {
+        transform: scale(1);
+        opacity: 0.4;
+      }
+      to {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 28px !important;
+      }
+
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">SnapMark</div>
+    <ul>
+      <li><a href="home">HOME</a></li>
+      <li><a href="feature2">FEATURES</a></li>
+      <li><a href="about2">ABOUT</a></li>
+      <li><a href="contact2">CONTACT</a></li>
+      <li><a href="dashboard" class="hover:text-purple-200 transition">Dashboard</a></li>
+      <!-- <li><a href="profile" class="hover:text-purple-200 transition">Profile</a></li> -->
+      <li><a href="logout" class="hover:text-purple-200 transition">Logout</a></li>
+      <li><button class="btn btn-glow">GET STARTED</button></li>
+
+    </ul>
+  </nav>
+
+  <header>
+    <h1 class="fade-in">Welcome to Your Attendance Dashboard</h1>
+    <p>Stay on track with real-time insights and analytics</p>
+  </header>
+
+  <div class="dashboard-container fade-in">
+    <div class="chart-box">
+      <h3>Monthly Attendance Overview</h3>
+      <canvas id="attendanceChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Student Category Summary</h3>
+      <canvas id="studentCategoryChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Class Performance Comparison</h3>
+      <canvas id="classComparisonChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Daily Attendance Flow</h3>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 SnapMark
+  </footer>
+
+  <!-- Background Glow Animation -->
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+    background: radial-gradient(circle at 30% 30%, #c084fc33 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, #a855f733 0%, transparent 40%);
+    animation: pulseGlow 5s infinite alternate;">
+  </div>
+
+  <script>
+    const chartOptions = {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          backgroundColor: '#c084fc',
+          titleColor: '#fff',
+          bodyColor: '#fff',
+          borderColor: '#a78bfa',
+          borderWidth: 1
+        },
+        legend: {
+          labels: {
+            color: '#d8caff',
+            font: { size: 14 }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#d8caff' },
+          grid: { color: 'rgba(216, 202, 255, 0.2)' }
+        },
+        x: {
+          ticks: { color: '#d8caff' },
+          grid: { color: 'rgba(216, 202, 255, 0.2)' }
+        }
+      }
+    };
+
+    new Chart(document.getElementById('attendanceChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Attendance (%)',
+          data: [80, 85, 90, 95, 92],
+          backgroundColor: 'rgba(192, 155, 255, 0.3)',
+          borderColor: '#b392f0',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: chartOptions
+    });
+
+    new Chart(document.getElementById('studentCategoryChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Present', 'Absent', 'Leave'],
+        datasets: [{
+          data: [65, 25, 10],
+          backgroundColor: ['#c084fc', '#7c3aed', '#a78bfa']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            backgroundColor: '#c084fc',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            borderColor: '#a78bfa',
+            borderWidth: 1
+          },
+          legend: {
+            labels: { color: '#d8caff', font: { size: 14 } }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('classComparisonChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Class A', 'Class B', 'Class C'],
+        datasets: [{
+          label: 'Avg Attendance %',
+          backgroundColor: '#a855f7',
+          data: [88, 79, 91]
+        }]
+      },
+      options: chartOptions
+    });
+
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        datasets: [{
+          label: 'Attendance Count',
+          backgroundColor: '#d8b4fe',
+          data: [40, 45, 38, 50, 48]
+        }]
+      },
+      options: chartOptions
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Attendance System</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Background Video */
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 120vh;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: rgba(0, 0, 0, 0.5);
+      border-bottom: 2px solid #00aaff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00aaff;
+      text-shadow: 2px 2px 10px rgba(0, 170, 255, 0.7);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      margin-left: auto;
+      align-items: center;
+    }
+
+    .nav-links li {
+      margin: 0 15px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00aaff;
+      text-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-size: 18px;
+      background: #00aaff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 50px;
+      box-shadow: 0 4px 8px rgba(0, 170, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #0099e6;
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 120px 50px;
+      flex-wrap: wrap;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-content h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px rgba(0, 170, 255, 0.7);
+      letter-spacing: 2px;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(0, 170, 255, 0.8), 0 0 20px rgba(0, 170, 255, 0.6); }
+      100% { text-shadow: 0 0 30px rgba(0, 170, 255, 1), 0 0 60px rgba(0, 170, 255, 0.8); }
+    }
+
+    .hero-content p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-glow {
+      position: relative;
+      overflow: hidden;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: white;
+      background: transparent;
+      border: 2px solid #00aaff;
+      border-radius: 30px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    .btn-glow::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background-color: rgba(0, 170, 255, 0.3);
+      border-radius: 50%;
+      animation: glowing 2s infinite;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes glowing {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0.4;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    .menu-icon {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        text-align: center;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuIcon = document.querySelector(".menu-icon");
+      const navLinks = document.querySelector(".nav-links");
+
+      menuIcon.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- Video Background -->
+  <div class="video-container">
+    <iframe 
+      src="https://www.youtube.com/embed/yM-d7NiwNU0?autoplay=1&mute=1&loop=1&start=10&playlist=yM-d7NiwNU0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <header>
+    <nav>
+      <div class="logo">SnapMark</div>
+      <div class="menu-icon">&#9776;</div>
+      <ul class="nav-links">
+        <li><a href="home">HOME</a></li>
+        <li><a href="feature2">FEATURES</a></li>
+        <li><a href="about2">ABOUT</a></li>
+        <li><a href="contact2">CONTACT</a></li>
+        <li><a href="dashboard" class="hover:text-purple-200 transition">Dashboard</a></li>
+        <!-- <li><a href="profile" class="hover:text-purple-200 transition">Profile</a></li> -->
+        <li><a href="logout" class="hover:text-purple-200 transition">Logout</a></li>
+        <li><button class="btn btn-glow">GET STARTED</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Smart Attendance System</h1>
+      <p>Face Recognition & Real-Time Tracking for Automated Attendance</p>
+      <button class="btn btn-glow">Learn More</button>
+    </div>
+  </section>
+
+  
+</body>
+</html>

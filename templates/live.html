@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Camera Options</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+    .glass-card, .glass-nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .glow-button {
+      background-color: white;
+      color: #4c1d95;
+      box-shadow: 0 0 10px #c084fc, 0 0 20px #c084fc;
+      transition: all 0.3s ease-in-out;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 20px #a855f7, 0 0 40px #9333ea;
+      transform: scale(1.05);
+    }
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-white px-4 sm:px-6 md:px-8">
+
+  <!-- 🔥 Responsive Navbar -->
+  <nav class="glass-nav fixed top-0 left-0 right-0 z-50 p-4 md:px-8 shadow-lg">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-2 font-bold text-xl sm:text-2xl text-white">
+        <i data-lucide="camera" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        <span>Camera Mode</span>
+      </div>
+      <button id="menu-toggle" class="lg:hidden text-white focus:outline-none">
+        <i data-lucide="menu" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+      </button>
+      <ul class="hidden lg:flex space-x-4 sm:space-x-6 text-white/90 font-medium">
+        <li><a href="/" class="hover:text-purple-200 transition">Home</a></li>
+        <li><a href="/dashboard" class="hover:text-purple-200 transition">Dashboard</a></li>
+        <li><a href="/profile" class="hover:text-purple-200 transition">Profile</a></li>
+        <li><a href="/logout" class="hover:text-purple-200 transition">Logout</a></li>
+      </ul>
+    </div>
+    <ul id="mobile-menu" class="lg:hidden hidden mt-4 space-y-4 text-white/90 font-medium text-center">
+      <li><a href="/" class="block hover:text-purple-200 transition">Home</a></li>
+      <li><a href="/dashboard" class="block hover:text-purple-200 transition">Dashboard</a></li>
+      <li><a href="/profile" class="block hover:text-purple-200 transition">Profile</a></li>
+      <li><a href="/logout" class="block hover:text-purple-200 transition">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- 📸 Page Header -->
+  <header class="text-center pt-36 pb-12 fade-in">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Choose Camera Mode</h1>
+    <p class="text-base sm:text-lg md:text-xl text-white/80 px-2">Select whether to capture a still image or start live video attendance.</p>
+  </header>
+
+  <!-- 🔧 Option Cards -->
+  <main class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto fade-in">
+
+    <!-- 📷 Capture Image Card -->
+    <div class="glass-card rounded-2xl shadow-xl p-6 sm:p-8 text-center" data-tilt>
+      <div class="flex flex-col items-center justify-center gap-3 mb-4">
+        <i data-lucide="camera" class="w-10 h-10 sm:w-12 sm:h-12"></i>
+        <h2 class="text-xl sm:text-2xl font-bold">Capture Image</h2>
+      </div>
+      <p class="mb-5 text-white/80 text-sm sm:text-base">Capture a single image from your webcam to mark attendance.</p>
+      <a href="/capture" class="glow-button block w-full py-2 rounded-lg font-semibold text-base sm:text-lg">Capture Now</a>
+    </div>
+
+    <!-- 🎥 Live Video Card -->
+    <div class="glass-card rounded-2xl shadow-xl p-6 sm:p-8 text-center" data-tilt>
+      <div class="flex flex-col items-center justify-center gap-3 mb-4">
+        <i data-lucide="video" class="w-10 h-10 sm:w-12 sm:h-12"></i>
+        <h2 class="text-xl sm:text-2xl font-bold">Live Video</h2>
+      </div>
+      <p class="mb-5 text-white/80 text-sm sm:text-base">Start the webcam in live mode for continuous face detection.</p>
+      <a href="/live" class="glow-button block w-full py-2 rounded-lg font-semibold text-base sm:text-lg">Start Live</a>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+      max: 15,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.2,
+    });
+
+    lucide.createIcons();
+
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });a
+  </script>
+
+</body>
+</html>

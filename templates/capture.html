@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mark Attendance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    video {
+      border-radius: 1rem;
+    }
+
+    .message {
+      font-size: 1.25rem;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen text-white p-4">
+
+  <!-- Page Header -->
+  <div class="text-center mb-6">
+    <h1 class="text-3xl font-bold">Capturing Image to Mark Attendance</h1>
+    <p class="text-white/70 mt-2">Please look into the camera...</p>
+  </div>
+
+  <!-- Live Camera Feed -->
+  <video id="video" autoplay playsinline class="w-full max-w-md"></video>
+
+  <!-- Feedback Message -->
+  <p id="message" class="message mt-6 text-white/90"></p>
+
+  <!-- Hidden canvas to capture image -->
+  <canvas id="canvas" class="hidden"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const message = document.getElementById('message');
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+
+        // Wait a moment for the camera to initialize
+        setTimeout(captureImageAndSend, 2000); // wait 2 seconds before capturing
+      } catch (err) {
+        message.textContent = "Camera access denied or not available.";
+        console.error(err);
+      }
+    }
+
+    function captureImageAndSend() {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = canvas.toDataURL('image/jpeg');
+
+      // Send to backend to mark attendance
+      fetch('/mark_attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageData })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          message.textContent = "✅ Attendance marked successfully for " + data.name;
+        } else {
+          message.textContent = "❌ Face not recognized or attendance failed.";
+        }
+      })
+      .catch(err => {
+        message.textContent = "❌ Error sending image.";
+        console.error(err);
+      });
+    }
+
+    startCamera();
+  </script>
+</body>
+</html>
